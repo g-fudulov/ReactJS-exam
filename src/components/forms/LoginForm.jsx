@@ -10,7 +10,12 @@ export default function LoginForm() {
 
   const validate = (values) => {
     let errors = {};
-    // validation
+    if (!values.email) {
+      errors.email = "Email is required";
+    }
+    if (!values.password) {
+      errors.password = "Password is required";
+    }
     return errors;
   };
 
@@ -20,10 +25,14 @@ export default function LoginForm() {
       "POST",
       values
     );
-    const { password: _, ...user } = newUser;
-    loginUser(user);
-    resetForm();
-    navigator(`/profile/view/${user._id}`);
+    if (newUser.code === 403) {
+      alert(`${newUser.message}`);
+    } else {
+      resetForm();
+      const { password: _, ...user } = newUser;
+      loginUser(user);
+      navigator(`/profile/view/${user._id}`);
+    }
   };
 
   const {
@@ -44,6 +53,7 @@ export default function LoginForm() {
           name="email"
           value={values.email}
           onChange={handleChange}
+          required
         />
         {errors.email && <p>{errors.email}</p>}
       </div>
@@ -54,6 +64,7 @@ export default function LoginForm() {
           name="password"
           value={values.password}
           onChange={handleChange}
+          required
         />
         {errors.password && <p>{errors.password}</p>}
       </div>
