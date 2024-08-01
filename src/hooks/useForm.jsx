@@ -21,7 +21,11 @@ function formReducer(state, action) {
         isSubmitting: action.isSubmitting,
       };
     case "RESET_FORM":
-      return initialState;
+      return {
+        values: action.initialValues,
+        errors: {},
+        isSubmitting: false,
+      };
     default:
       return state;
   }
@@ -37,8 +41,10 @@ function useForm(initialValues = {}, callback, validate) {
   const [state, dispatch] = useReducer(formReducer, initialState);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    dispatch({ type: "SET_FIELD_VALUE", field: name, value });
+    // const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
+    const fieldValue = type === 'checkbox' ? checked : value;
+    dispatch({ type: "SET_FIELD_VALUE", field: name, "value": fieldValue });
   };
 
   const handleSubmit = async (e) => {
@@ -59,7 +65,7 @@ function useForm(initialValues = {}, callback, validate) {
   };
 
   const resetForm = () => {
-    dispatch({ type: "RESET_FORM" });
+    dispatch({ type: "RESET_FORM" , initialValues});
   };
 
   return {
