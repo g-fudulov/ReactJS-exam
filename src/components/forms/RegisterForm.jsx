@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import serverRequest from "../../api/serverRequest";
 import { useAuth } from "../../context/Auth";
 import useForm from "../../hooks/useForm";
+import { Link } from "react-router-dom";
 
 export default function RegisterForm() {
   const { loginUser } = useAuth();
@@ -60,114 +61,117 @@ export default function RegisterForm() {
   } = useForm(initialValues, callback, validate);
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>Email:</label>
-        <input
-          type="email"
-          name="email"
-          value={values.email}
-          onChange={handleChange}
-          required
-        />
-        {errors.email && <p>{errors.email}</p>}
-      </div>
-      <div>
-        <label>Password:</label>
-        <input
-          type="password"
-          name="password"
-          value={values.password}
-          onChange={handleChange}
-          required
-        />
-        {errors.password && <p>{errors.password}</p>}
-      </div>
-      <div>
-        <label>Confirm Password:</label>
-        <input
-          type="password"
-          name="confirmPassword"
-          value={values.confirmPassword}
-          onChange={handleChange}
-          required
-        />
-        {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
-      </div>
-      <div>
-        <label>First Name:</label>
-        <input
-          type="text"
-          name="firstName"
-          value={values.firstName}
-          onChange={handleChange}
-          required
-        />
-        {errors.firstName && <p>{errors.firstName}</p>}
-      </div>
-      <div>
-        <label>Second Name:</label>
-        <input
-          type="text"
-          name="secondName"
-          value={values.secondName}
-          onChange={handleChange}
-          required
-        />
-        {errors.secondName && <p>{errors.secondName}</p>}
-      </div>
-      <div>
-        <label>Country:</label>
-        <input
-          type="text"
-          name="location"
-          value={values.location}
-          onChange={handleChange}
-          required
-        />
-        {errors.location && <p>{errors.location}</p>}
-      </div>
-      <div>
-        <label>Experience:</label>
+    <>
+      <form onSubmit={handleSubmit}>
         <div>
-          <label>
-            <input
-              type="radio"
-              name="experience"
-              value="Beginner"
-              checked={values.experience === "Beginner"}
-              onChange={handleChange}
-            />
-            Beginner
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="experience"
-              value="Intermediate"
-              checked={values.experience === "Intermediate"}
-              onChange={handleChange}
-            />
-            Intermediate
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="experience"
-              value="Expert"
-              checked={values.experience === "Expert"}
-              onChange={handleChange}
-            />
-            Expert
-          </label>
+          <label>Email:</label>
+          <input
+            type="email"
+            name="email"
+            value={values.email}
+            onChange={handleChange}
+            required
+          />
+          {errors.email && <p>{errors.email}</p>}
         </div>
-      </div>
-      <button type="submit" disabled={isSubmitting}>
-        {isSubmitting ? "Submitting..." : "Submit"}
-      </button>
-      <button type="button" onClick={resetForm}>
-        Reset
-      </button>
-    </form>
+        <div>
+          <label>Password:</label>
+          <input
+            type="password"
+            name="password"
+            value={values.password}
+            onChange={handleChange}
+            required
+          />
+          {errors.password && <p>{errors.password}</p>}
+        </div>
+        <div>
+          <label>Confirm Password:</label>
+          <input
+            type="password"
+            name="confirmPassword"
+            value={values.confirmPassword}
+            onChange={handleChange}
+            required
+          />
+          {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
+        </div>
+        <div>
+          <label>First Name:</label>
+          <input
+            type="text"
+            name="firstName"
+            value={values.firstName}
+            onChange={handleChange}
+            required
+          />
+          {errors.firstName && <p>{errors.firstName}</p>}
+        </div>
+        <div>
+          <label>Second Name:</label>
+          <input
+            type="text"
+            name="secondName"
+            value={values.secondName}
+            onChange={handleChange}
+            required
+          />
+          {errors.secondName && <p>{errors.secondName}</p>}
+        </div>
+        <div>
+          <label>Country:</label>
+          <input
+            type="text"
+            name="location"
+            value={values.location}
+            onChange={handleChange}
+            required
+          />
+          {errors.location && <p>{errors.location}</p>}
+        </div>
+        <div>
+          <label>Experience:</label>
+          <div>
+            <label>
+              <input
+                type="radio"
+                name="experience"
+                value="Beginner"
+                checked={values.experience === "Beginner"}
+                onChange={handleChange}
+              />
+              Beginner
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="experience"
+                value="Intermediate"
+                checked={values.experience === "Intermediate"}
+                onChange={handleChange}
+              />
+              Intermediate
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="experience"
+                value="Expert"
+                checked={values.experience === "Expert"}
+                onChange={handleChange}
+              />
+              Expert
+            </label>
+          </div>
+        </div>
+        <button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? "Submitting..." : "Submit"}
+        </button>
+        <button type="button" onClick={resetForm}>
+          Reset
+        </button>
+      </form>
+      <p>If already have an account, please <Link to="/login">Login</Link> </p>
+    </>
   );
 }

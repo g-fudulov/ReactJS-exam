@@ -10,6 +10,7 @@ import Home from "./components/Home";
 import ProfileShow from "./components/ProfileShow";
 import { AuthProvider } from "./context/Auth";
 import { Route, Routes } from "react-router-dom";
+import LoginRequired from "./private-page/LoginRequred";
 
 function App() {
   return (
@@ -18,13 +19,41 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<LoginForm />} />
-        <Route path="/logout" element={<LogoutForm />} />
+        <Route
+          path="/logout"
+          element={
+            <LoginRequired>
+              <LogoutForm />
+            </LoginRequired>
+          }
+        />
         <Route path="/register" element={<RegisterForm />} />
         <Route path="/profile/view/:profileId" element={<ProfileShow />} />
         {/* <Route path="/market" element={<Home />} /> */}
-        <Route path="/jobs/create" element={<CreateJobForm />} />
-        <Route path="/jobs/edit/:jobId" element={<EditJobForm />} />
-        <Route path="/jobs/delete/:jobId" element={<DeleteJobForm />} />
+        <Route
+          path="/jobs/create"
+          element={
+            <LoginRequired>
+              <CreateJobForm />
+            </LoginRequired>
+          }
+        />
+        <Route
+          path="/jobs/edit/:jobId"
+          element={
+            <LoginRequired>
+              <EditJobForm />
+            </LoginRequired>
+          }
+        />
+        <Route
+          path="/jobs/delete/:jobId"
+          element={
+            <LoginRequired>
+              <DeleteJobForm />
+            </LoginRequired>
+          }
+        />
       </Routes>
     </AuthProvider>
   );

@@ -1,7 +1,7 @@
 import { useAuth } from "../../context/Auth";
 import useForm from "../../hooks/useForm";
 import serverRequest from "../../api/serverRequest";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function LoginForm() {
   const { currentUser, loginUser } = useAuth();
@@ -45,32 +45,35 @@ export default function LoginForm() {
   } = useForm(initialValues, callback, validate);
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>Email:</label>
-        <input
-          type="email"
-          name="email"
-          value={values.email}
-          onChange={handleChange}
-          required
-        />
-        {errors.email && <p>{errors.email}</p>}
-      </div>
-      <div>
-        <label>Password:</label>
-        <input
-          type="password"
-          name="password"
-          value={values.password}
-          onChange={handleChange}
-          required
-        />
-        {errors.password && <p>{errors.password}</p>}
-      </div>
-      <button type="submit" disabled={isSubmitting}>
-        {isSubmitting ? "Submitting..." : "Submit"}
-      </button>
-    </form>
+    <>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Email:</label>
+          <input
+            type="email"
+            name="email"
+            value={values.email}
+            onChange={handleChange}
+            required
+          />
+          {errors.email && <p>{errors.email}</p>}
+        </div>
+        <div>
+          <label>Password:</label>
+          <input
+            type="password"
+            name="password"
+            value={values.password}
+            onChange={handleChange}
+            required
+          />
+          {errors.password && <p>{errors.password}</p>}
+        </div>
+        <button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? "Submitting..." : "Submit"}
+        </button>
+      </form>
+      <p>If you do not have an account, please <Link to="/register">Register</Link> </p>
+    </>
   );
 }
