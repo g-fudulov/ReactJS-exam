@@ -1,4 +1,4 @@
-import { serverRequest } from "../api/serverRequest";
+import serverRequest from "../api/serverRequest";
 import { useState, useEffect } from "react";
 
 export default function useGetMethod(url, authToken = null) {

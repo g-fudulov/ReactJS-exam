@@ -32,12 +32,12 @@ export default async function serverRequest(
   if (!response.ok) {
     if (response.status == 403) {
       alert("No Authorization!");
-    } else if (response.status == 204) { // 204 is empty response (successful logout)
-      return true;
     } else {
-      alert("Server Error");
+      alert("Server Error!");
     }
-    // throw new Error(`HTTP error! status: ${response.status}`);
+  } else if (response.status == 204) {
+    // 204 is empty response (successful logout)
+    return response;
   }
 
   const result = await response.json();
