@@ -26,6 +26,7 @@ export default function CreateJobForm() {
 
     console.log(newJob);
     navigator(`/jobs/view/${newJob._id}`);
+    // Implement enrolled profiles when doing the POST request
   };
 
   const validate = (values) => {

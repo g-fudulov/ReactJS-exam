@@ -1,8 +1,9 @@
 import serverRequest from "../api/serverRequest";
 import { useState, useEffect } from "react";
 
-export default function useGetMethod(url, authToken = null) {
-  const [state, setState] = useState({});
+export default function useGetMethod(initialData = {}, url, authToken = null) {
+  const [state, setState] = useState(initialData);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -15,9 +16,10 @@ export default function useGetMethod(url, authToken = null) {
         authToken
       );
       setState(result);
+      setIsLoading(false);
     })();
     return () => abortController.abort();
   }, [url]);
 
-  return [state, setState];
+  return [state, setState, isLoading];
 }

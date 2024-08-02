@@ -12,6 +12,7 @@ import { AuthProvider } from "./context/Auth";
 import { Route, Routes } from "react-router-dom";
 import LoginRequired from "./private-page/LoginRequred";
 import JobShow from "./components/JobShow";
+import Market from "./components/Market";
 
 function App() {
   return (
@@ -30,7 +31,7 @@ function App() {
         />
         <Route path="/register" element={<RegisterForm />} />
         <Route path="/profile/view/:profileId" element={<ProfileShow />} />
-        {/* <Route path="/market" element={<Home />} /> */}
+        <Route path="/market" element={<Market />} />
         <Route path="/jobs/view/:jobId" element={<JobShow />} />
         <Route
           path="/jobs/create"
