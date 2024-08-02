@@ -26,6 +26,11 @@ function formReducer(state, action) {
         errors: {},
         isSubmitting: false,
       };
+    case "RESET_ERRORS":
+      return {
+        ...state,
+        errors: {},
+      };
     default:
       return state;
   }
@@ -41,31 +46,31 @@ function useForm(initialValues = {}, callback, validate) {
   const [state, dispatch] = useReducer(formReducer, initialState);
 
   const handleChange = (e) => {
-    // const { name, value } = e.target;
     const { name, value, type, checked } = e.target;
-    const fieldValue = type === 'checkbox' ? checked : value;
-    dispatch({ type: "SET_FIELD_VALUE", field: name, "value": fieldValue });
+    const fieldValue = type === "checkbox" ? checked : value;
+    dispatch({ type: "SET_FIELD_VALUE", field: name, value: fieldValue });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validate) {
+      dispatch({ type: "RESET_ERRORS" });
       const validationErrors = validate(state.values);
-      dispatch({ type: 'SET_ERRORS', errors: validationErrors });
+      dispatch({ type: "SET_ERRORS", errors: validationErrors });
       if (Object.keys(validationErrors).length === 0) {
-        dispatch({ type: 'SET_IS_SUBMITTING', isSubmitting: true });
+        dispatch({ type: "SET_IS_SUBMITTING", isSubmitting: true });
         await callback(state.values);
-        dispatch({ type: 'SET_IS_SUBMITTING', isSubmitting: false });
+        dispatch({ type: "SET_IS_SUBMITTING", isSubmitting: false });
       }
     } else {
-      dispatch({ type: 'SET_IS_SUBMITTING', isSubmitting: true });
+      dispatch({ type: "SET_IS_SUBMITTING", isSubmitting: true });
       await callback(state.values);
-      dispatch({ type: 'SET_IS_SUBMITTING', isSubmitting: false });
+      dispatch({ type: "SET_IS_SUBMITTING", isSubmitting: false });
     }
   };
 
   const resetForm = () => {
-    dispatch({ type: "RESET_FORM" , initialValues});
+    dispatch({ type: "RESET_FORM", initialValues });
   };
 
   return {
