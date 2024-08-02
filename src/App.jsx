@@ -11,6 +11,7 @@ import ProfileShow from "./components/ProfileShow";
 import { AuthProvider } from "./context/Auth";
 import { Route, Routes } from "react-router-dom";
 import LoginRequired from "./private-page/LoginRequred";
+import JobShow from "./components/JobShow";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
         <Route path="/register" element={<RegisterForm />} />
         <Route path="/profile/view/:profileId" element={<ProfileShow />} />
         {/* <Route path="/market" element={<Home />} /> */}
+        <Route path="/jobs/view/:jobId" element={<JobShow />} />
         <Route
           path="/jobs/create"
           element={
