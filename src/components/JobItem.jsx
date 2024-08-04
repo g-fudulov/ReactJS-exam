@@ -2,11 +2,9 @@ import { Link } from "react-router-dom";
 
 export default function JobItem({
   title,
-  description,
   salary,
   location,
   level,
-  employer,
   _id,
 }) {
   return (
