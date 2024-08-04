@@ -24,7 +24,7 @@ export default function CreateJobForm() {
       currentUser.accessToken
     );
 
-    console.log(newJob);
+    // console.log(newJob);
     navigator(`/jobs/view/${newJob._id}`);
     // Implement enrolled profiles when doing the POST request
   };

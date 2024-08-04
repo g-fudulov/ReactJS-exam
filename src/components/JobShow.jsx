@@ -1,9 +1,11 @@
 import { useParams } from "react-router-dom";
 import useGetMethod from "../hooks/useGetMethod";
-// import { Link } from "react-router-dom";
+import { useAuth } from "../context/Auth";
+import { Link } from "react-router-dom";
 
 export default function JobShow() {
   const { jobId } = useParams();
+  const { currentUser } = useAuth();
   const searchParams = new URLSearchParams({ load: "employer=_ownerId:users" });
   const [job, setJob, isLoading] = useGetMethod(
     {},
@@ -30,6 +32,8 @@ export default function JobShow() {
         <p>Employer Email: {job.employer.email}</p>
         <p>Posted: {new Date(job._createdOn).toString()}</p>
         <p>Public Job ID: {job._id}</p>
+        {currentUser._id === job._ownerId && <Link to={`/jobs/edit/${jobId}`}>Edit</Link>}
+        {currentUser._id === job._ownerId && <Link to={`/jobs/delete/${jobId}`}>Delete</Link>}
         {/* Show the count of enrolled users */}
       </section>
     </main>
