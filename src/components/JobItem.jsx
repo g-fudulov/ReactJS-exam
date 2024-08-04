@@ -12,10 +12,9 @@ export default function JobItem({
   return (
     <div className="job-item">
       <h1>{title}</h1>
-      <p>{location}</p>
-      <p>{description}</p>
-      <p>{salary}</p>
-      <p>{level}</p>
+      <p>Location: {location}</p>
+      <p>Salary: {salary}</p>
+      <p>Experience: {level}</p>
       <Link to={`/jobs/view/${_id}`}>View More</Link>
     </div>
   );

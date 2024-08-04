@@ -4,12 +4,12 @@ import JobItem from "./JobItem";
 export default function Market() {
   const [allJobs, setAllJobs, isLoading] = useGetMethod(
     [],
-    "http://localhost:3030/data/jobs"
+    "http://localhost:3030/data/jobs?sortBy=_createdOn%20desc"
   );
 
   return (
     <main>
-    <h1>Recent Jobs</h1>
+      <h1>Recent Jobs</h1>
       <section>
         {isLoading ? (
           <p>Loading...</p>
