@@ -48,6 +48,11 @@ export default function RegisterForm() {
     if (!values.secondName) {
       values.secondName = "Second Name is requred";
     }
+    if (!values.location) {
+      errors.location = "Country is required";
+    } else if (!alphabetical.test(values.location)) {
+      errors.location = "Country must contain only letters";
+    }
     return errors;
   };
 

@@ -10,6 +10,14 @@ function formReducer(state, action) {
           [action.field]: action.value,
         },
       };
+    case "SET_VALUES":
+      return {
+        ...state,
+        values: { // values: action.values
+          ...state.values,
+          ...action.values,
+        },
+      };
     case "SET_ERRORS":
       return {
         ...state,
@@ -73,6 +81,10 @@ function useForm(initialValues = {}, callback, validate) {
     dispatch({ type: "RESET_FORM", initialValues });
   };
 
+  const setValues = (values) => {
+    dispatch({ type: "SET_VALUES", values });
+  };
+
   return {
     handleChange,
     handleSubmit,
@@ -80,6 +92,7 @@ function useForm(initialValues = {}, callback, validate) {
     values: state.values,
     errors: state.errors,
     isSubmitting: state.isSubmitting,
+    setValues,
   };
 }
 

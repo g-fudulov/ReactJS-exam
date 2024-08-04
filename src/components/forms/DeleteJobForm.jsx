@@ -26,7 +26,7 @@ export default function DeleteJobForm() {
       <Link onClick={handleDelete} to={`/profile/view/${currentUser._id}`}>
         Delete
       </Link>
-      <Link to={`/jobs/edit/${jobId}`}>No</Link>
+      <Link to={`/jobs/view/${jobId}`}>No</Link>
     </main>
   );
 }

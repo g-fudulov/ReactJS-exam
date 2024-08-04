@@ -23,8 +23,6 @@ export default function CreateJobForm() {
       null,
       currentUser.accessToken
     );
-
-    // console.log(newJob);
     navigator(`/jobs/view/${newJob._id}`);
     // Implement enrolled profiles when doing the POST request
   };
@@ -32,7 +30,8 @@ export default function CreateJobForm() {
   const validate = (values) => {
     let errors = {};
     const numeric = /^[0-9]+$/;
-    const alphabetical = /^[a-zA-Z]+$/;
+    // const alphabetical = /^[a-zA-Z]+$/;
+    const alphabetical = /^[a-zA-Z\s]+$/;
 
     if (!values.title) {
       errors.title = "Title is required";
