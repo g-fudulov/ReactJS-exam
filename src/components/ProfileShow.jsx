@@ -1,18 +1,12 @@
 import { useParams } from "react-router-dom";
 import { useAuth } from "../context/Auth";
 import useGetMethod from "../hooks/useGetMethod";
-import JobItem from "./JobItem";
+import PostsShow from "./PostsShow";
+import ApplicationsShow from "./ApplicationsShow";
 
 export default function ProfileShow() {
   const { profileId } = useParams();
   const { currentUser } = useAuth();
-  const searchParams = new URLSearchParams({
-    where: `_ownerId="${profileId}"`,
-  });
-  const [jobs, setJobs, isLoading] = useGetMethod(
-    [],
-    `http://localhost:3030/data/jobs?${searchParams.toString()}`
-  );
 
   return (
     <main>
@@ -26,15 +20,8 @@ export default function ProfileShow() {
         <p>Joined: {new Date(currentUser._createdOn).toString()}</p>
         <p>Public Profile ID: {profileId}</p>
       </section>
-      <section>
-        {isLoading ? (
-          <p>Loading...</p>
-        ) : jobs.length === 0 ? (
-          <p>No jobs posted</p>
-        ) : (
-          jobs.map((job) => <JobItem key={job._id} {...job} />)
-        )}
-      </section>
+      <PostsShow profileId={profileId} />
+      <ApplicationsShow profileId={profileId} />
     </main>
   );
 }

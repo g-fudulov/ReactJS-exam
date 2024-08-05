@@ -10,7 +10,7 @@ export default function Header() {
       {isLoggedIn ? (
         <>
           <Link to="/logout">LogOut</Link>
-          <Link to={`/profile/view/:${currentUser._id}`}>
+          <Link to={`/profile/view/${currentUser._id}`}>
             {currentUser.email}
           </Link>
         </>

@@ -52,7 +52,7 @@ export default function EditJobForm() {
   const callback = async (values) => {
     const newJob = await serverRequest(
       `http://localhost:3030/data/jobs/${jobId}`,
-      "PUT",
+      "PATCH",
       values,
       null,
       currentUser.accessToken

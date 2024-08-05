@@ -63,11 +63,9 @@ export default function JobShow() {
         <p>Salary: {job.salary}</p>
         <p>Experience: {job.level}</p>
         <p>Location: {job.location}</p>
-        {/* <Link to={`/profile/view/${job.employer._id}`}> */}
         <p>
           Employer Name: {job.employer.firstName} {job.employer.secondName}
         </p>
-        {/* </Link> */}
         <p>Employer Email: {job.employer.email}</p>
         <p>Posted: {new Date(job._createdOn).toString()}</p>
         <p>Public Job ID: {job._id}</p>
@@ -78,7 +76,7 @@ export default function JobShow() {
           <Link to={`/jobs/delete/${jobId}`}>Delete</Link>
         )}
         {Object.keys(job.candidates).includes(currentUser._id) ? (
-          <p>Aplication has been sent</p>
+          <p>Application has been sent</p>
         ) : (
           currentUser._id !== job._ownerId &&
           isLoggedIn && (
@@ -94,6 +92,7 @@ export default function JobShow() {
             : 0}
         </p>
       </section>
+      {/* TODO Show applicants when the user is the employer */}
     </main>
   );
 }
