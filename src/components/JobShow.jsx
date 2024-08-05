@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import serverRequest from "../api/serverRequest";
 
 export default function JobShow() {
-  const navigator = useNavigate();
   const { jobId } = useParams();
   const { currentUser, isLoggedIn } = useAuth();
   const searchParams = new URLSearchParams({ load: "employer=_ownerId:users" });
@@ -41,8 +40,15 @@ export default function JobShow() {
       currentUser.accessToken,
       true
     );
+    setJob((oldJob) => ({
+      ...oldJob,
+      candidates: {
+        ...oldJob.candidates,
+        ...data.candidates,
+      },
+    }));
+
     alert("Aplication has been sent");
-    // navigator('/')
   };
 
   if (isLoading) {
@@ -71,12 +77,22 @@ export default function JobShow() {
         {currentUser._id === job._ownerId && (
           <Link to={`/jobs/delete/${jobId}`}>Delete</Link>
         )}
-        {currentUser._id !== job._ownerId && isLoggedIn && (
-          <button onClick={applyHandler} disabled={isLoading}>
-            Apply
-          </button>
+        {Object.keys(job.candidates).includes(currentUser._id) ? (
+          <p>Aplication has been sent</p>
+        ) : (
+          currentUser._id !== job._ownerId &&
+          isLoggedIn && (
+            <button onClick={applyHandler} disabled={isLoading}>
+              Apply
+            </button>
+          )
         )}
-        <p>Current aplications: {}</p>
+        <p>
+          Current aplications:{" "}
+          {Object.keys(job.candidates).length !== 0
+            ? Object.keys(job.candidates).length
+            : 0}
+        </p>
       </section>
     </main>
   );

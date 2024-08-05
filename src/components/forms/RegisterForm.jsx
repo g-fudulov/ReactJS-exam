@@ -163,7 +163,7 @@ export default function RegisterForm() {
                 type="radio"
                 name="level"
                 value="Expert"
-                checked={values.lvel === "Expert"}
+                checked={values.level === "Expert"}
                 onChange={handleChange}
               />
               Expert
