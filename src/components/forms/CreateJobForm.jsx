@@ -16,10 +16,11 @@ export default function CreateJobForm() {
 
   const callback = async (values) => {
     resetForm();
+    const data = {...values, candidates: {}}
     const newJob = await serverRequest(
       "http://localhost:3030/data/jobs",
       "POST",
-      values,
+      data,
       null,
       currentUser.accessToken
     );

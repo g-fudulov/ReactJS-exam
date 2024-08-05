@@ -1,16 +1,49 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import useGetMethod from "../hooks/useGetMethod";
 import { useAuth } from "../context/Auth";
 import { Link } from "react-router-dom";
+import serverRequest from "../api/serverRequest";
 
 export default function JobShow() {
+  const navigator = useNavigate();
   const { jobId } = useParams();
-  const { currentUser } = useAuth();
+  const { currentUser, isLoggedIn } = useAuth();
   const searchParams = new URLSearchParams({ load: "employer=_ownerId:users" });
   const [job, setJob, isLoading] = useGetMethod(
     {},
     `http://localhost:3030/data/jobs/${jobId}?${searchParams.toString()}`
   );
+
+  const applyHandler = async () => {
+    const response = await serverRequest(
+      `http://localhost:3030/data/jobs/${jobId}?select=candidates`
+    );
+    const previousCandidates = response.candidates;
+    const data = {
+      candidates: {
+        ...previousCandidates,
+        [currentUser._id]: {
+          email: currentUser.email,
+          firstName: currentUser.firstName,
+          secondName: currentUser.secondName,
+          location: currentUser.location,
+          level: currentUser.level,
+          _id: currentUser._id,
+        },
+      },
+    };
+
+    const confirmation = await serverRequest(
+      `http://localhost:3030/data/jobs/${jobId}`,
+      "PATCH",
+      data,
+      null,
+      currentUser.accessToken,
+      true
+    );
+    alert("Aplication has been sent");
+    // navigator('/')
+  };
 
   if (isLoading) {
     return <p>Loading...</p>;
@@ -25,16 +58,25 @@ export default function JobShow() {
         <p>Experience: {job.level}</p>
         <p>Location: {job.location}</p>
         {/* <Link to={`/profile/view/${job.employer._id}`}> */}
-          <p>
-            Employer Name: {job.employer.firstName} {job.employer.secondName}
-          </p>
+        <p>
+          Employer Name: {job.employer.firstName} {job.employer.secondName}
+        </p>
         {/* </Link> */}
         <p>Employer Email: {job.employer.email}</p>
         <p>Posted: {new Date(job._createdOn).toString()}</p>
         <p>Public Job ID: {job._id}</p>
-        {currentUser._id === job._ownerId && <Link to={`/jobs/edit/${jobId}`}>Edit</Link>}
-        {currentUser._id === job._ownerId && <Link to={`/jobs/delete/${jobId}`}>Delete</Link>}
-        {/* Show the count of enrolled users */}
+        {currentUser._id === job._ownerId && (
+          <Link to={`/jobs/edit/${jobId}`}>Edit</Link>
+        )}
+        {currentUser._id === job._ownerId && (
+          <Link to={`/jobs/delete/${jobId}`}>Delete</Link>
+        )}
+        {currentUser._id !== job._ownerId && isLoggedIn && (
+          <button onClick={applyHandler} disabled={isLoading}>
+            Apply
+          </button>
+        )}
+        <p>Current aplications: {}</p>
       </section>
     </main>
   );

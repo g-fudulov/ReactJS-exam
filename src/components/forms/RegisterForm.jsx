@@ -14,7 +14,7 @@ export default function RegisterForm() {
     firstName: "",
     secondName: "",
     location: "",
-    experience: "Beginner",
+    level: "Beginner",
   };
 
   const callback = async (values) => {
@@ -32,6 +32,7 @@ export default function RegisterForm() {
 
   const validate = (values) => {
     let errors = {};
+    const alphabetical = /^[a-zA-Z\s]+$/;
 
     if (!values.email) {
       errors.email = "Email is required";
@@ -140,9 +141,9 @@ export default function RegisterForm() {
             <label>
               <input
                 type="radio"
-                name="experience"
+                name="level"
                 value="Beginner"
-                checked={values.experience === "Beginner"}
+                checked={values.level === "Beginner"}
                 onChange={handleChange}
               />
               Beginner
@@ -150,9 +151,9 @@ export default function RegisterForm() {
             <label>
               <input
                 type="radio"
-                name="experience"
+                name="level"
                 value="Intermediate"
-                checked={values.experience === "Intermediate"}
+                checked={values.level === "Intermediate"}
                 onChange={handleChange}
               />
               Intermediate
@@ -160,9 +161,9 @@ export default function RegisterForm() {
             <label>
               <input
                 type="radio"
-                name="experience"
+                name="level"
                 value="Expert"
-                checked={values.experience === "Expert"}
+                checked={values.lvel === "Expert"}
                 onChange={handleChange}
               />
               Expert

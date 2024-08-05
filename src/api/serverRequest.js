@@ -3,7 +3,8 @@ export default async function serverRequest(
   method = "GET",
   data = null,
   signal = null,
-  authToken = null
+  authToken = null,
+  admin = false
 ) {
   let options = {
     method: method.toUpperCase(),
@@ -25,6 +26,9 @@ export default async function serverRequest(
 
   if (!authToken) {
     delete options.headers["X-Authorization"];
+  } else if (authToken && admin) {
+    delete options.headers["X-Authorization"];
+    options.headers["X-Admin"] = authToken;
   }
 
   const response = await fetch(url, options);
