@@ -25,6 +25,17 @@ export default function RegisterForm() {
       "POST",
       data
     );
+    const {
+      accessToken: _2,
+      password: _3,
+      _id: key,
+      ...jsonStoreData
+    } = newUser;
+    const jsonStoreUser = await serverRequest(
+      "http://localhost:3030/jsonstore/users/",
+      "POST",
+      { ...jsonStoreData, key }
+    );
     const { password: __, ...user } = newUser;
     loginUser(user);
     navigator(`/profile/view/${user._id}`);
@@ -177,7 +188,9 @@ export default function RegisterForm() {
           Reset
         </button>
       </form>
-      <p>If already have an account, please <Link to="/login">Login</Link> </p>
+      <p>
+        If already have an account, please <Link to="/login">Login</Link>{" "}
+      </p>
     </>
   );
 }

@@ -31,7 +31,14 @@ function App() {
           }
         />
         <Route path="/register" element={<RegisterForm />} />
-        <Route path="/profile/view/:profileId" element={<ProfileShow />} />
+        <Route
+          path="/profile/view/:profileId"
+          element={
+            <LoginRequired>
+              <ProfileShow />
+            </LoginRequired>
+          }
+        />
         <Route path="/market" element={<Market />} />
         <Route path="/jobs/view/:jobId" element={<JobShow />} />
         <Route

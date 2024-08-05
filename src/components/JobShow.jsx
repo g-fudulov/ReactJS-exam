@@ -3,6 +3,7 @@ import useGetMethod from "../hooks/useGetMethod";
 import { useAuth } from "../context/Auth";
 import { Link } from "react-router-dom";
 import serverRequest from "../api/serverRequest";
+import ApplicantsShow from "./ApplicantsShow";
 
 export default function JobShow() {
   const { jobId } = useParams();
@@ -92,7 +93,9 @@ export default function JobShow() {
             : 0}
         </p>
       </section>
-      {/* TODO Show applicants when the user is the employer */}
+      {currentUser._id === job._ownerId && (
+        <ApplicantsShow candidates={job.candidates} />
+      )}
     </main>
   );
 }
