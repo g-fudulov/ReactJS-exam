@@ -2,6 +2,7 @@ import { Navigate } from "react-router-dom";
 import { useAuth } from "../../context/Auth";
 import { useEffect, useState } from "react";
 import serverRequest from "../../api/serverRequest";
+import Spinner from "react-bootstrap/Spinner";
 
 export default function LogoutForm() {
   const { currentUser, logoutUser } = useAuth();
@@ -32,5 +33,12 @@ export default function LogoutForm() {
     return <Navigate to="/" />;
   }
 
-  return <p>Logging out...</p>;
+  return (
+    <div
+      className="d-flex justify-content-center align-items-center"
+      style={{ height: "100vh" }}
+    >
+      <Spinner animation="border" variant="primary" />
+    </div>
+  );
 }

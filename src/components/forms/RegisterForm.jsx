@@ -3,6 +3,9 @@ import serverRequest from "../../api/serverRequest";
 import { useAuth } from "../../context/Auth";
 import useForm from "../../hooks/useForm";
 import { Link } from "react-router-dom";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import Alert from "react-bootstrap/Alert";
 
 export default function RegisterForm() {
   const { loginUser } = useAuth();
@@ -31,11 +34,10 @@ export default function RegisterForm() {
       _id: key,
       ...jsonStoreData
     } = newUser;
-    const jsonStoreUser = await serverRequest(
-      "http://localhost:3030/jsonstore/users/",
-      "POST",
-      { ...jsonStoreData, key }
-    );
+    await serverRequest("http://localhost:3030/jsonstore/users/", "POST", {
+      ...jsonStoreData,
+      key,
+    });
     const { password: __, ...user } = newUser;
     loginUser(user);
     navigator(`/profile/view/${user._id}`);
@@ -55,10 +57,10 @@ export default function RegisterForm() {
       errors.confirmPassword = "Passwords do not match";
     }
     if (!values.firstName) {
-      values.firstName = "First Name is requred";
+      errors.firstName = "First Name is required";
     }
     if (!values.secondName) {
-      values.secondName = "Second Name is requred";
+      errors.secondName = "Second Name is required";
     }
     if (!values.location) {
       errors.location = "Country is required";
@@ -77,120 +79,196 @@ export default function RegisterForm() {
     isSubmitting,
   } = useForm(initialValues, callback, validate);
 
+  const styles = {
+    container: {
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      minHeight: "92vh",
+      backgroundColor: "#f8f9fa",
+      flexDirection: "column"
+    },
+    form: {
+      width: "100%",
+      maxWidth: "500px",
+      padding: "20px",
+      borderRadius: "8px",
+      boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+      backgroundColor: "#ffffff",
+    },
+    formGroup: {
+      marginBottom: "15px",
+    },
+    label: {
+      display: "block",
+      marginBottom: "5px",
+      fontWeight: "bold",
+    },
+    input: {
+      width: "100%",
+      padding: "10px",
+      borderRadius: "4px",
+      border: "1px solid #ced4da",
+    },
+    button: {
+      marginTop: "20px",
+    },
+    resetButton: {
+      marginTop: "20px",
+      marginLeft: "10px",
+    },
+    link: {
+      marginTop: "20px",
+    },
+  };
+
   return (
-    <>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Email:</label>
-          <input
+    <div style={styles.container}>
+      <Form onSubmit={handleSubmit} style={styles.form}>
+        <Form.Group controlId="formEmail" style={styles.formGroup}>
+          <Form.Label style={styles.label}>Email:</Form.Label>
+          <Form.Control
             type="email"
             name="email"
             value={values.email}
             onChange={handleChange}
-            required
+            isInvalid={!!errors.email}
+            style={styles.input}
           />
-          {errors.email && <p>{errors.email}</p>}
-        </div>
-        <div>
-          <label>Password:</label>
-          <input
+          <Form.Control.Feedback type="invalid">
+            {errors.email}
+          </Form.Control.Feedback>
+        </Form.Group>
+
+        <Form.Group controlId="formPassword" style={styles.formGroup}>
+          <Form.Label style={styles.label}>Password:</Form.Label>
+          <Form.Control
             type="password"
             name="password"
             value={values.password}
             onChange={handleChange}
-            required
+            isInvalid={!!errors.password}
+            style={styles.input}
           />
-          {errors.password && <p>{errors.password}</p>}
-        </div>
-        <div>
-          <label>Confirm Password:</label>
-          <input
+          <Form.Control.Feedback type="invalid">
+            {errors.password}
+          </Form.Control.Feedback>
+        </Form.Group>
+
+        <Form.Group controlId="formConfirmPassword" style={styles.formGroup}>
+          <Form.Label style={styles.label}>Confirm Password:</Form.Label>
+          <Form.Control
             type="password"
             name="confirmPassword"
             value={values.confirmPassword}
             onChange={handleChange}
-            required
+            isInvalid={!!errors.confirmPassword}
+            style={styles.input}
           />
-          {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
-        </div>
-        <div>
-          <label>First Name:</label>
-          <input
+          <Form.Control.Feedback type="invalid">
+            {errors.confirmPassword}
+          </Form.Control.Feedback>
+        </Form.Group>
+
+        <Form.Group controlId="formFirstName" style={styles.formGroup}>
+          <Form.Label style={styles.label}>First Name:</Form.Label>
+          <Form.Control
             type="text"
             name="firstName"
             value={values.firstName}
             onChange={handleChange}
-            required
+            isInvalid={!!errors.firstName}
+            style={styles.input}
           />
-          {errors.firstName && <p>{errors.firstName}</p>}
-        </div>
-        <div>
-          <label>Second Name:</label>
-          <input
+          <Form.Control.Feedback type="invalid">
+            {errors.firstName}
+          </Form.Control.Feedback>
+        </Form.Group>
+
+        <Form.Group controlId="formSecondName" style={styles.formGroup}>
+          <Form.Label style={styles.label}>Second Name:</Form.Label>
+          <Form.Control
             type="text"
             name="secondName"
             value={values.secondName}
             onChange={handleChange}
-            required
+            isInvalid={!!errors.secondName}
+            style={styles.input}
           />
-          {errors.secondName && <p>{errors.secondName}</p>}
-        </div>
-        <div>
-          <label>Country:</label>
-          <input
+          <Form.Control.Feedback type="invalid">
+            {errors.secondName}
+          </Form.Control.Feedback>
+        </Form.Group>
+
+        <Form.Group controlId="formLocation" style={styles.formGroup}>
+          <Form.Label style={styles.label}>Country:</Form.Label>
+          <Form.Control
             type="text"
             name="location"
             value={values.location}
             onChange={handleChange}
-            required
+            isInvalid={!!errors.location}
+            style={styles.input}
           />
-          {errors.location && <p>{errors.location}</p>}
-        </div>
-        <div>
-          <label>Experience:</label>
+          <Form.Control.Feedback type="invalid">
+            {errors.location}
+          </Form.Control.Feedback>
+        </Form.Group>
+
+        <Form.Group controlId="formLevel" style={styles.formGroup}>
+          <Form.Label style={styles.label}>Experience:</Form.Label>
           <div>
-            <label>
-              <input
-                type="radio"
-                name="level"
-                value="Beginner"
-                checked={values.level === "Beginner"}
-                onChange={handleChange}
-              />
-              Beginner
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="level"
-                value="Intermediate"
-                checked={values.level === "Intermediate"}
-                onChange={handleChange}
-              />
-              Intermediate
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="level"
-                value="Expert"
-                checked={values.level === "Expert"}
-                onChange={handleChange}
-              />
-              Expert
-            </label>
+            <Form.Check
+              type="radio"
+              id="levelBeginner"
+              label="Beginner"
+              name="level"
+              value="Beginner"
+              checked={values.level === "Beginner"}
+              onChange={handleChange}
+            />
+            <Form.Check
+              type="radio"
+              id="levelIntermediate"
+              label="Intermediate"
+              name="level"
+              value="Intermediate"
+              checked={values.level === "Intermediate"}
+              onChange={handleChange}
+            />
+            <Form.Check
+              type="radio"
+              id="levelExpert"
+              label="Expert"
+              name="level"
+              value="Expert"
+              checked={values.level === "Expert"}
+              onChange={handleChange}
+            />
           </div>
-        </div>
-        <button type="submit" disabled={isSubmitting}>
+        </Form.Group>
+
+        <Button
+          variant="primary"
+          type="submit"
+          disabled={isSubmitting}
+          style={styles.button}
+        >
           {isSubmitting ? "Submitting..." : "Submit"}
-        </button>
-        <button type="button" onClick={resetForm}>
+        </Button>
+
+        <Button
+          variant="secondary"
+          type="button"
+          onClick={resetForm}
+          style={styles.resetButton}
+        >
           Reset
-        </button>
-      </form>
-      <p>
-        If already have an account, please <Link to="/login">Login</Link>{" "}
+        </Button>
+      </Form>
+      <p style={styles.link}>
+        If you already have an account, please <Link to="/login">Login</Link>
       </p>
-    </>
+    </div>
   );
 }

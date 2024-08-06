@@ -1,5 +1,9 @@
 import useGetMethod from "../hooks/useGetMethod";
 import JobItem from "./JobItem";
+import Spinner from "react-bootstrap/Spinner";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 export default function Market() {
   const [allJobs, setAllJobs, isLoading] = useGetMethod(
@@ -8,17 +12,25 @@ export default function Market() {
   );
 
   return (
-    <main>
-      <h1>Recent Jobs</h1>
-      <section>
+    <Container>
+      <h1 className="my-4">Recent Jobs</h1>
+      <Row>
         {isLoading ? (
-          <p>Loading...</p>
+          <Col className="d-flex justify-content-center">
+            <Spinner animation="border" variant="primary" />
+          </Col>
         ) : allJobs.length === 0 ? (
-          <p>No Recent Jobs</p>
+          <Col>
+            <p>No Recent Jobs</p>
+          </Col>
         ) : (
-          allJobs.map((job) => <JobItem key={job._id} {...job} />)
+          allJobs.map((job) => (
+            <Col md={6} lg={4} key={job._id} className="mb-4">
+              <JobItem {...job} />
+            </Col>
+          ))
         )}
-      </section>
-    </main>
+      </Row>
+    </Container>
   );
 }

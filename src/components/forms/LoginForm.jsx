@@ -3,6 +3,10 @@ import useForm from "../../hooks/useForm";
 import serverRequest from "../../api/serverRequest";
 import { Link, useNavigate } from "react-router-dom";
 
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import Alert from "react-bootstrap/Alert";
+
 export default function LoginForm() {
   const { currentUser, loginUser } = useAuth();
   const navigator = useNavigate();
@@ -44,36 +48,76 @@ export default function LoginForm() {
     isSubmitting,
   } = useForm(initialValues, callback, validate);
 
+  const styles = {
+    container: {
+      display: "flex",
+      flexDirection: "column", // Ensure the content stacks vertically
+      justifyContent: "center",
+      alignItems: "center",
+      minHeight: "100vh",
+      backgroundColor: "#f8f9fa", // Optional: background color
+    },
+    form: {
+      width: "100%",
+      maxWidth: "400px", // Set the maximum width for the form
+      padding: "20px",
+      borderRadius: "8px",
+      boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+      backgroundColor: "#ffffff",
+    },
+    label: {
+      display: "block",
+      marginBottom: "5px",
+      fontWeight: "bold",
+    },
+    link: {
+      marginTop: "20px", // Add some space between the form and the link
+    },
+    button: {
+      marginTop: "18px", // Add margin-top to button
+    },
+  };
+
   return (
-    <>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Email:</label>
-          <input
+    <div style={styles.container}>
+      <Form onSubmit={handleSubmit} style={styles.form}>
+        <Form.Group controlId="formEmail">
+          <Form.Label style={styles.label}>Email:</Form.Label>
+          <Form.Control
             type="email"
             name="email"
             value={values.email}
             onChange={handleChange}
             required
           />
-          {errors.email && <p>{errors.email}</p>}
-        </div>
-        <div>
-          <label>Password:</label>
-          <input
+          {errors.email && <Alert variant="danger">{errors.email}</Alert>}
+        </Form.Group>
+
+        <Form.Group controlId="formPassword">
+          <Form.Label style={styles.label}>Password:</Form.Label>
+          <Form.Control
             type="password"
             name="password"
             value={values.password}
             onChange={handleChange}
             required
           />
-          {errors.password && <p>{errors.password}</p>}
-        </div>
-        <button type="submit" disabled={isSubmitting}>
+          {errors.password && <Alert variant="danger">{errors.password}</Alert>}
+        </Form.Group>
+
+        <Button
+          variant="primary"
+          type="submit"
+          disabled={isSubmitting}
+          style={styles.button}
+        >
           {isSubmitting ? "Submitting..." : "Submit"}
-        </button>
-      </form>
-      <p>If you do not have an account, please <Link to="/register">Register</Link> </p>
-    </>
+        </Button>
+      </Form>
+      <p style={styles.link}>
+        If you do not have an account, please{" "}
+        <Link to="/register">Register</Link>
+      </p>
+    </div>
   );
 }
