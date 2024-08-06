@@ -14,6 +14,8 @@ import LoginRequired from "./private-page/LoginRequred";
 import JobShow from "./components/JobShow";
 import Market from "./components/Market";
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 function App() {
   //
   return (
