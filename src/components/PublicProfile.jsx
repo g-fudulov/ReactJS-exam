@@ -1,4 +1,7 @@
+import React from "react";
+import { Container, Row, Col, Card } from "react-bootstrap";
 import useGetMethod from "../hooks/useGetMethod";
+import Spinner from "react-bootstrap/Spinner";
 
 export default function PublicProfile({ profileId }) {
   const [users, setUsers, isLoading] = useGetMethod(
@@ -8,21 +11,59 @@ export default function PublicProfile({ profileId }) {
   const user = Object.values(users).find((user) => user.key === profileId);
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return (
+      <>
+        <Spinner animation="border" variant="primary" />
+      </>
+    );
   }
 
   return (
-    <main>
-      <h1>{user.firstName}</h1>
-      <section>
-        <p>Email: {user.email}</p>
-        <p>First Name: {user.firstName}</p>
-        <p>Second Name: {user.secondName}</p>
-        <p>Country: {user.location}</p>
-        <p>Experience: {user.level}</p>
-        <p>Joined: {new Date(user._createdOn).toString()}</p>
-        <p>Public Profile ID: {profileId}</p>
-      </section>
-    </main>
+    <Container>
+      <Row className="my-4">
+        <Col>
+          <h1 className="text-center">{user.firstName}</h1>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <Card>
+            <Card.Header>Profile Details</Card.Header>
+            <Card.Body>
+              <Row>
+                <Col md={6}>
+                  <strong>Email:</strong> {user.email}
+                </Col>
+                <Col md={6}>
+                  <strong>First Name:</strong> {user.firstName}
+                </Col>
+              </Row>
+              <Row>
+                <Col md={6}>
+                  <strong>Second Name:</strong> {user.secondName}
+                </Col>
+                <Col md={6}>
+                  <strong>Country:</strong> {user.location}
+                </Col>
+              </Row>
+              <Row>
+                <Col md={6}>
+                  <strong>Experience:</strong> {user.level}
+                </Col>
+                <Col md={6}>
+                  <strong>Joined:</strong>{" "}
+                  {new Date(user._createdOn).toString()}
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <strong>Public Profile ID:</strong> {profileId}
+                </Col>
+              </Row>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
   );
 }
