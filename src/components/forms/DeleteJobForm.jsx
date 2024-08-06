@@ -1,11 +1,16 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/Auth";
-import { Link } from "react-router-dom";
 import serverRequest from "../../api/serverRequest";
+import { useState } from "react";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
+import { Link } from "react-router-dom";
 
 export default function DeleteJobForm() {
   const { jobId } = useParams();
   const { currentUser } = useAuth();
+  const [showModal, setShowModal] = useState(true);
+  const navigate = useNavigate();
 
   const handleDelete = async () => {
     const confirmation = await serverRequest(
@@ -17,16 +22,31 @@ export default function DeleteJobForm() {
     );
     if (confirmation._deletedOn) {
       alert("Job Post Deleted");
+      navigate(`/profile/view/${currentUser._id}`);
     }
   };
 
+  const handleClose = () => {
+    setShowModal(false);
+    navigate(`/jobs/view/${jobId}`);
+  };
+
   return (
-    <main>
-      <h1>Deleting job with Id: {jobId}?</h1>
-      <Link onClick={handleDelete} to={`/profile/view/${currentUser._id}`}>
-        Delete
-      </Link>
-      <Link to={`/jobs/view/${jobId}`}>No</Link>
-    </main>
+    <Modal show={showModal} onHide={handleClose} centered>
+      <Modal.Header closeButton>
+        <Modal.Title>Confirm Deletion</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <p>Are you sure you want to delete the job with ID: {jobId}?</p>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={handleClose}>
+          No
+        </Button>
+        <Button variant="danger" onClick={handleDelete}>
+          Delete
+        </Button>
+      </Modal.Footer>
+    </Modal>
   );
 }
