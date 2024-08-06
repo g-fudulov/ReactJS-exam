@@ -4,6 +4,8 @@ import { useAuth } from "../context/Auth";
 import { Link } from "react-router-dom";
 import serverRequest from "../api/serverRequest";
 import ApplicantsShow from "./ApplicantsShow";
+import { Container, Row, Col, Button, Card, Alert } from "react-bootstrap";
+import Spinner from "react-bootstrap/Spinner";
 
 export default function JobShow() {
   const { jobId } = useParams();
@@ -49,53 +51,114 @@ export default function JobShow() {
       },
     }));
 
-    alert("Aplication has been sent");
+    alert("Application has been sent");
   };
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return (
+      <Row className="justify-content-center" style={{ marginTop: "40vh" }}>
+        <Spinner animation="border" variant="primary" />
+      </Row>
+    );
   }
 
+  const styles = {
+    container: {
+      padding: "20px",
+      minHeight: "100vh",
+    },
+    card: {
+      marginBottom: "20px",
+    },
+    button: {
+      marginTop: "10px",
+      marginRight: "6px",
+    },
+    section: {
+      marginBottom: "20px",
+    },
+    alert: {
+      marginTop: "20px",
+    },
+  };
+
   return (
-    <main>
-      <h1>{job.title}</h1>
-      <section>
-        <p>Description: {job.description}</p>
-        <p>Salary: {job.salary}</p>
-        <p>Experience: {job.level}</p>
-        <p>Location: {job.location}</p>
-        <p>
-          Employer Name: {job.employer.firstName} {job.employer.secondName}
-        </p>
-        <p>Employer Email: {job.employer.email}</p>
-        <p>Posted: {new Date(job._createdOn).toString()}</p>
-        <p>Public Job ID: {job._id}</p>
-        {currentUser._id === job._ownerId && (
-          <Link to={`/jobs/edit/${jobId}`}>Edit</Link>
-        )}
-        {currentUser._id === job._ownerId && (
-          <Link to={`/jobs/delete/${jobId}`}>Delete</Link>
-        )}
-        {Object.keys(job.candidates).includes(currentUser._id) ? (
-          <p>Application has been sent</p>
-        ) : (
-          currentUser._id !== job._ownerId &&
-          isLoggedIn && (
-            <button onClick={applyHandler} disabled={isLoading}>
-              Apply
-            </button>
-          )
-        )}
-        <p>
-          Current aplications:{" "}
-          {Object.keys(job.candidates).length !== 0
-            ? Object.keys(job.candidates).length
-            : 0}
-        </p>
-      </section>
+    <Container style={styles.container}>
+      <Card style={styles.card}>
+        <Card.Body>
+          <Card.Title>{job.title}</Card.Title>
+          <Card.Text>
+            <strong>Description:</strong> {job.description}
+          </Card.Text>
+          <Card.Text>
+            <strong>Salary:</strong> {job.salary}
+          </Card.Text>
+          <Card.Text>
+            <strong>Experience:</strong> {job.level}
+          </Card.Text>
+          <Card.Text>
+            <strong>Location:</strong> {job.location}
+          </Card.Text>
+          <Card.Text>
+            <strong>Employer Name:</strong> {job.employer.firstName}{" "}
+            {job.employer.secondName}
+          </Card.Text>
+          <Card.Text>
+            <strong>Employer Email:</strong> {job.employer.email}
+          </Card.Text>
+          <Card.Text>
+            <strong>Posted:</strong>{" "}
+            {new Date(job._createdOn).toLocaleDateString()}
+          </Card.Text>
+          <Card.Text>
+            <strong>Public Job ID:</strong> {job._id}
+          </Card.Text>
+          <Row>
+            <Col>
+              {currentUser._id === job._ownerId && (
+                <>
+                  <Link to={`/jobs/edit/${jobId}`}>
+                    <Button variant="warning" style={styles.button}>
+                      Edit
+                    </Button>
+                  </Link>
+                  <Link to={`/jobs/delete/${jobId}`}>
+                    <Button variant="danger" style={styles.button}>
+                      Delete
+                    </Button>
+                  </Link>
+                </>
+              )}
+              {Object.keys(job.candidates).includes(currentUser._id) ? (
+                <Alert variant="info" style={styles.alert}>
+                  Application has been sent
+                </Alert>
+              ) : (
+                currentUser._id !== job._ownerId &&
+                isLoggedIn && (
+                  <Button
+                    onClick={applyHandler}
+                    disabled={isLoading}
+                    variant="primary"
+                    style={styles.button}
+                  >
+                    Apply
+                  </Button>
+                )
+              )}
+              <p>
+                <strong>Current applications:</strong>{" "}
+                {Object.keys(job.candidates).length !== 0
+                  ? Object.keys(job.candidates).length
+                  : 0}
+              </p>
+            </Col>
+          </Row>
+        </Card.Body>
+      </Card>
       {currentUser._id === job._ownerId && (
         <ApplicantsShow candidates={job.candidates} />
       )}
-    </main>
+    </Container>
   );
 }

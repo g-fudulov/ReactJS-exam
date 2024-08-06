@@ -12,9 +12,9 @@ export default function PublicProfile({ profileId }) {
 
   if (isLoading) {
     return (
-      <>
+      <Row className="justify-content-center" style={{ marginTop: "40vh" }}>
         <Spinner animation="border" variant="primary" />
-      </>
+      </Row>
     );
   }
 

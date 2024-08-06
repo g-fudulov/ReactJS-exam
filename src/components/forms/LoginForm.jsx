@@ -51,15 +51,15 @@ export default function LoginForm() {
   const styles = {
     container: {
       display: "flex",
-      flexDirection: "column", // Ensure the content stacks vertically
+      flexDirection: "column",
       justifyContent: "center",
       alignItems: "center",
       minHeight: "100vh",
-      backgroundColor: "#f8f9fa", // Optional: background color
+      backgroundColor: "#f8f9fa",
     },
     form: {
       width: "100%",
-      maxWidth: "400px", // Set the maximum width for the form
+      maxWidth: "400px",
       padding: "20px",
       borderRadius: "8px",
       boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
@@ -71,10 +71,10 @@ export default function LoginForm() {
       fontWeight: "bold",
     },
     link: {
-      marginTop: "20px", // Add some space between the form and the link
+      marginTop: "20px",
     },
     button: {
-      marginTop: "18px", // Add margin-top to button
+      marginTop: "18px",
     },
   };
 
