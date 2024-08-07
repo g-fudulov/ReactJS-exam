@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import useGetMethod from "../hooks/useGetMethod";
 import { useAuth } from "../context/Auth";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import serverRequest from "../api/serverRequest";
 import ApplicantsShow from "./ApplicantsShow";
 import { Container, Row, Col, Button, Card, Alert } from "react-bootstrap";
@@ -60,6 +60,10 @@ export default function JobShow() {
         <Spinner animation="border" variant="primary" />
       </Row>
     );
+  }
+
+  if (job.status === 404) {
+    return <Navigate to="/not-found" />;
   }
 
   const styles = {

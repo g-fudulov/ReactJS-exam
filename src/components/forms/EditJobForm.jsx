@@ -180,6 +180,8 @@ export default function EditJobForm() {
           <Form.Label style={styles.label}>Salary</Form.Label>
           <Form.Control
             type="number"
+            min="900"
+            max="100000"
             name="salary"
             value={values.salary}
             onChange={handleChange}

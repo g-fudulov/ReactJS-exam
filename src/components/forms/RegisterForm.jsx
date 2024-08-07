@@ -28,6 +28,9 @@ export default function RegisterForm() {
       "POST",
       data
     );
+    if (newUser.status === 409) {
+      return alert("User with this email already exists");
+    }
     const {
       accessToken: _2,
       password: _3,
@@ -55,6 +58,9 @@ export default function RegisterForm() {
     }
     if (values.password !== values.confirmPassword) {
       errors.confirmPassword = "Passwords do not match";
+    }
+    if (values.password.length < 6) {
+      errors.password = "Password must be longer than 6 characters";
     }
     if (!values.firstName) {
       errors.firstName = "First Name is required";
@@ -86,7 +92,7 @@ export default function RegisterForm() {
       alignItems: "center",
       minHeight: "92vh",
       backgroundColor: "#f8f9fa",
-      flexDirection: "column"
+      flexDirection: "column",
     },
     form: {
       width: "100%",

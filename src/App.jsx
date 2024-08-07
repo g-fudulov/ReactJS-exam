@@ -16,6 +16,7 @@ import Market from "./components/Market";
 import Footer from "./components/Footer";
 
 import "bootstrap/dist/css/bootstrap.min.css";
+import NotFound from "./components/NotFound";
 
 function App() {
   return (
@@ -24,6 +25,8 @@ function App() {
       <div className="d-flex flex-column min-vh-100">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/not-found" element={<NotFound />} />
+          <Route path="*" element={<NotFound />} />
           <Route path="/login" element={<LoginForm />} />
           <Route
             path="/logout"

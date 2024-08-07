@@ -38,6 +38,7 @@ export default async function serverRequest(
       alert("No Authorization!");
     } else {
       alert("Server Error!");
+      return response;
     }
   } else if (response.status == 204) {
     // 204 is empty response (successful logout)
