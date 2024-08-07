@@ -37,22 +37,26 @@ export default function ApplicantsShow({ candidates }) {
       <section style={styles.section}>
         <h2 style={styles.heading}>Applicants</h2>
         <ListGroup style={styles.listGroup}>
-          {Object.keys(candidates).length !== 0 ? Object.values(candidates).map((user) => (
-            <ListGroup.Item key={user._id} style={styles.listItem}>
-              <Link
-                to={`/profile/view/${user._id}`}
-                style={styles.link}
-                onMouseOver={(e) =>
-                  (e.currentTarget.style.color = styles.linkHover.color)
-                }
-                onMouseOut={(e) =>
-                  (e.currentTarget.style.color = styles.link.color)
-                }
-              >
-                {user.firstName} {user.secondName}
-              </Link>
-            </ListGroup.Item>
-          )) : <p>No candidates have applied</p>}
+          {Object.keys(candidates).length !== 0 ? (
+            Object.values(candidates).map((user) => (
+              <ListGroup.Item key={user._id} style={styles.listItem}>
+                <Link
+                  to={`/profile/view/${user._id}`}
+                  style={styles.link}
+                  onMouseOver={(e) =>
+                    (e.currentTarget.style.color = styles.linkHover.color)
+                  }
+                  onMouseOut={(e) =>
+                    (e.currentTarget.style.color = styles.link.color)
+                  }
+                >
+                  {user.firstName} {user.secondName}
+                </Link>
+              </ListGroup.Item>
+            ))
+          ) : (
+            <p>No candidates have applied</p>
+          )}
         </ListGroup>
       </section>
     </Container>
