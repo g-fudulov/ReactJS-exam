@@ -1,3 +1,35 @@
 body {
   overflow-x: hidden;
 }
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+
+.d-flex {
+  display: flex !important;
+}
+
+.flex-column {
+  flex-direction: column !important;
+}
+
+.min-vh-100 {
+  min-height: 100vh !important;
+}
+
+.flex-grow-1 {
+  flex-grow: 1 !important;
+}
+
+.bg-action-color {
+  background-color: #143060 !important;
+}

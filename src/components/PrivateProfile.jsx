@@ -1,7 +1,8 @@
 import React from "react";
-import { Container, Row, Col, Card } from "react-bootstrap";
+import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import PostsShow from "./PostsShow";
 import ApplicationsShow from "./ApplicationsShow";
+import { Link } from "react-router-dom";
 
 export default function PrivateProfile({ profileId, currentUser }) {
   return (
@@ -50,10 +51,17 @@ export default function PrivateProfile({ profileId, currentUser }) {
           </Card>
         </Col>
       </Row>
+      <Row className="my-4">
+        <Col className="text-center">
+          <Link className="btn btn-dark" to="/jobs/create">
+            New Job Post
+          </Link>
+        </Col>
+      </Row>
       <Row className="mt-4">
         <Col>
           <Card>
-            <Card.Header>Posts</Card.Header>
+            <Card.Header>Job Posts</Card.Header>
             <Card.Body>
               <PostsShow profileId={profileId} />
             </Card.Body>

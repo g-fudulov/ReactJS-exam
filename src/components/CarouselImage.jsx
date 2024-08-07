@@ -1,4 +1,3 @@
-// CarouselImage.js
 import React from "react";
 
 export default function CarouselImage({ image }) {

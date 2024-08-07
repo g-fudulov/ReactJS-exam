@@ -19,7 +19,7 @@ export default function PublicProfile({ profileId }) {
   }
 
   return (
-    <Container>
+    <Container style={{ marginBottom: "100px" }}>
       <Row className="my-4">
         <Col>
           <h1 className="text-center">{user.firstName}</h1>

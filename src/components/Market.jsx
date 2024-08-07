@@ -12,7 +12,7 @@ export default function Market() {
   );
 
   return (
-    <Container>
+    <Container style={{ marginBottom: "75px" }}>
       <h1 className="my-4">Recent Jobs</h1>
       <Row>
         {isLoading ? (

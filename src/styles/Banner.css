@@ -1,0 +1,4 @@
+a.carousel-control-prev,
+a.carousel-control-next {
+  z-index: 4;
+}

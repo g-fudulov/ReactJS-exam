@@ -37,7 +37,7 @@ export default function ApplicantsShow({ candidates }) {
       <section style={styles.section}>
         <h2 style={styles.heading}>Applicants</h2>
         <ListGroup style={styles.listGroup}>
-          {Object.values(candidates).map((user) => (
+          {Object.keys(candidates).length !== 0 ? Object.values(candidates).map((user) => (
             <ListGroup.Item key={user._id} style={styles.listItem}>
               <Link
                 to={`/profile/view/${user._id}`}
@@ -52,7 +52,7 @@ export default function ApplicantsShow({ candidates }) {
                 {user.firstName} {user.secondName}
               </Link>
             </ListGroup.Item>
-          ))}
+          )) : <p>No candidates have applied</p>}
         </ListGroup>
       </section>
     </Container>

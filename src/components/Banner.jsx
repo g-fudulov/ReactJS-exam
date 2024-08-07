@@ -1,10 +1,10 @@
-// Banner.js
 import React from "react";
 import Carousel from "react-bootstrap/Carousel";
 import CarouselImage from "./CarouselImage";
 import firstImage from "../assets/Banner-1.jpg";
 import secondImage from "../assets/Banner-2.jpg";
 import thirdImage from "../assets/Banner-3.jpg";
+import "../styles/Banner.css"
 
 export default function Banner() {
   const styles = {

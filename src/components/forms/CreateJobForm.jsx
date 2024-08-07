@@ -2,6 +2,9 @@ import { useNavigate } from "react-router-dom";
 import serverRequest from "../../api/serverRequest";
 import { useAuth } from "../../context/Auth";
 import useForm from "../../hooks/useForm";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import { Container, Row } from "react-bootstrap";
 
 export default function CreateJobForm() {
   const { currentUser } = useAuth();
@@ -16,7 +19,7 @@ export default function CreateJobForm() {
 
   const callback = async (values) => {
     resetForm();
-    const data = {...values, candidates: {}}
+    const data = { ...values, candidates: {} };
     const newJob = await serverRequest(
       "http://localhost:3030/data/jobs",
       "POST",
@@ -25,13 +28,11 @@ export default function CreateJobForm() {
       currentUser.accessToken
     );
     navigator(`/jobs/view/${newJob._id}`);
-    // Implement enrolled profiles when doing the POST request
   };
 
   const validate = (values) => {
     let errors = {};
     const numeric = /^[0-9]+$/;
-    // const alphabetical = /^[a-zA-Z]+$/;
     const alphabetical = /^[a-zA-Z\s]+$/;
 
     if (!values.title) {
@@ -64,95 +65,158 @@ export default function CreateJobForm() {
     errors,
     isSubmitting,
   } = useForm(initialValues, callback, validate);
+
+  const styles = {
+    container: {
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      minHeight: "92vh",
+      flexDirection: "column",
+    },
+    form: {
+      width: "100%",
+      maxWidth: "600px",
+      padding: "20px",
+      borderRadius: "8px",
+      boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+      backgroundColor: "#ffffff",
+    },
+    formGroup: {
+      marginBottom: "15px",
+    },
+    label: {
+      display: "block",
+      marginBottom: "5px",
+      fontWeight: "bold",
+    },
+    input: {
+      width: "100%",
+      padding: "10px",
+      borderRadius: "4px",
+      border: "1px solid #ced4da",
+    },
+    textarea: {
+      resize: "none",
+      width: "100%",
+      padding: "10px",
+      borderRadius: "4px",
+      border: "1px solid #ced4da",
+      minHeight: "100px",
+    },
+    button: {
+      marginTop: "20px",
+    },
+  };
+
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="title">Title</label>
-        <input
-          type="text"
-          name="title"
-          id="title"
-          value={values.title}
-          onChange={handleChange}
-        />
-        {errors.title && <p>{errors.title}</p>}
-      </div>
-
-      <div>
-        <label htmlFor="description">Description</label>
-        <textarea
-          name="description"
-          id="description"
-          value={values.description}
-          onChange={handleChange}
-        />
-        {errors.description && <p>{errors.description}</p>}
-      </div>
-
-      <div>
-        <label htmlFor="salary">Salary</label>
-        <input
-          type="number"
-          min="900"
-          max="100000"
-          name="salary"
-          id="salary"
-          value={values.salary}
-          onChange={handleChange}
-        />
-        {errors.salary && <p>{errors.salary}</p>}
-      </div>
-
-      <div>
-        <label htmlFor="location">Country</label>
-        <input
-          type="text"
-          name="location"
-          id="location"
-          value={values.location}
-          onChange={handleChange}
-        />
-        {errors.location && <p>{errors.location}</p>}
-      </div>
-
-      <div>
-        <label>Level</label>
-        <div>
-          <input
-            type="radio"
-            name="level"
-            value="Beginner"
-            checked={values.level === "Beginner"}
+    <Container style={styles.container}>
+      <Form onSubmit={handleSubmit} style={styles.form}>
+        <Form.Group controlId="formTitle" style={styles.formGroup}>
+          <Form.Label style={styles.label}>Title</Form.Label>
+          <Form.Control
+            type="text"
+            name="title"
+            value={values.title}
             onChange={handleChange}
+            isInvalid={!!errors.title}
+            style={styles.input}
           />
-          Beginner
-        </div>
-        <div>
-          <input
-            type="radio"
-            name="level"
-            value="Intermediate"
-            checked={values.level === "Intermediate"}
-            onChange={handleChange}
-          />
-          Intermediate
-        </div>
-        <div>
-          <input
-            type="radio"
-            name="level"
-            value="Advanced"
-            checked={values.level === "Advanced"}
-            onChange={handleChange}
-          />
-          Advanced
-        </div>
-        {errors.level && <p>{errors.level}</p>}
-      </div>
+          <Form.Control.Feedback type="invalid">
+            {errors.title}
+          </Form.Control.Feedback>
+        </Form.Group>
 
-      <button type="submit" disabled={isSubmitting}>
-        Create Job
-      </button>
-    </form>
+        <Form.Group controlId="formDescription" style={styles.formGroup}>
+          <Form.Label style={styles.label}>Description</Form.Label>
+          <Form.Control
+            as="textarea"
+            name="description"
+            value={values.description}
+            onChange={handleChange}
+            isInvalid={!!errors.description}
+            style={styles.textarea}
+          />
+          <Form.Control.Feedback type="invalid">
+            {errors.description}
+          </Form.Control.Feedback>
+        </Form.Group>
+
+        <Form.Group controlId="formSalary" style={styles.formGroup}>
+          <Form.Label style={styles.label}>Salary</Form.Label>
+          <Form.Control
+            type="number"
+            name="salary"
+            min="900"
+            max="100000"
+            value={values.salary}
+            onChange={handleChange}
+            isInvalid={!!errors.salary}
+            style={styles.input}
+          />
+          <Form.Control.Feedback type="invalid">
+            {errors.salary}
+          </Form.Control.Feedback>
+        </Form.Group>
+
+        <Form.Group controlId="formLocation" style={styles.formGroup}>
+          <Form.Label style={styles.label}>Country</Form.Label>
+          <Form.Control
+            type="text"
+            name="location"
+            value={values.location}
+            onChange={handleChange}
+            isInvalid={!!errors.location}
+            style={styles.input}
+          />
+          <Form.Control.Feedback type="invalid">
+            {errors.location}
+          </Form.Control.Feedback>
+        </Form.Group>
+
+        <Form.Group controlId="formLevel" style={styles.formGroup}>
+          <Form.Label style={styles.label}>Experience</Form.Label>
+          <div>
+            <Form.Check
+              type="radio"
+              id="levelBeginner"
+              label="Beginner"
+              name="level"
+              value="Beginner"
+              checked={values.level === "Beginner"}
+              onChange={handleChange}
+            />
+            <Form.Check
+              type="radio"
+              id="levelIntermediate"
+              label="Intermediate"
+              name="level"
+              value="Intermediate"
+              checked={values.level === "Intermediate"}
+              onChange={handleChange}
+            />
+            <Form.Check
+              type="radio"
+              id="levelAdvanced"
+              label="Advanced"
+              name="level"
+              value="Advanced"
+              checked={values.level === "Advanced"}
+              onChange={handleChange}
+            />
+          </div>
+          {errors.level && <p style={{ color: "red" }}>{errors.level}</p>}
+        </Form.Group>
+
+        <Button
+          variant="primary"
+          type="submit"
+          disabled={isSubmitting}
+          style={styles.button}
+        >
+          {isSubmitting ? "Creating..." : "Create Job"}
+        </Button>
+      </Form>
+    </Container>
   );
 }
